@@ -4,6 +4,7 @@ document.querySelector(".search").addEventListener("submit", async (e) => {
   let input = document.querySelector("#searchInput").value;
 
   if (input !== "") {
+    clearInfo();
     warning("Loading...");
 
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURI(
@@ -14,9 +15,8 @@ document.querySelector(".search").addEventListener("submit", async (e) => {
     let json = await results.json();
 
     console.log(json);
-    console.log(json.weather[0].icon);
 
-    if (json.cod === 200) {
+    if (json.cod == "200") {
       showInfo({
         name: json.name,
         country: json.sys.country,
@@ -26,8 +26,7 @@ document.querySelector(".search").addEventListener("submit", async (e) => {
         windAngle: json.wind.deg,
       });
     } else {
-      clearInfo();
-      warning(json.message);
+      warning("City not found");
     }
   }
 });
@@ -60,5 +59,5 @@ const showInfo = (json) => {
 
 const clearInfo = () => {
   warning("");
-  document.querySelector(".resultado").style.display = "none";
+  document.querySelector(".result").style.display = "none";
 };
